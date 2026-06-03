@@ -44,16 +44,51 @@ int main(int argc, char *argv[])
     app.setupAppStyle();
     app.setupColorScheme();
 
+#if defined(Q_OS_ANDROID)
+    // Increase base font for touch readability
+    QFont mobileFont = app.font();
+    mobileFont.setPixelSize(18);
+    app.setFont(mobileFont);
+
+    // Global stylesheet for touch-friendly controls
+    app.setStyleSheet(QStringLiteral(
+        "QWidget { font-size: 18px; }"
+        "QPushButton { min-height: 48px; padding: 8px 16px; }"
+        "QLineEdit { min-height: 40px; padding: 4px 8px; font-size: 16px; }"
+        "QComboBox { min-height: 44px; padding: 4px 8px; }"
+        "QSpinBox { min-height: 40px; }"
+        "QDoubleSpinBox { min-height: 40px; }"
+        "QCheckBox { spacing: 8px; }"
+        "QCheckBox::indicator { width: 24px; height: 24px; }"
+        "QRadioButton { spacing: 8px; }"
+        "QRadioButton::indicator { width: 24px; height: 24px; }"
+        "QTabWidget::pane { padding: 4px; }"
+        "QTabBar::tab { min-height: 40px; padding: 8px 16px; font-size: 16px; }"
+        "QGroupBox { padding: 16px 8px 8px 8px; margin-top: 8px; font-size: 16px; }"
+        "QToolButton { min-height: 40px; padding: 4px 12px; }"
+        "QMenuBar { font-size: 16px; }"
+        "QMenu { font-size: 16px; }"
+        "QMenu::item { padding: 8px 24px; }"
+        "QLabel { font-size: 16px; }"
+        "QTextEdit { font-size: 16px; }"
+        "QPlainTextEdit { font-size: 16px; }"
+    ));
+#endif
+
     MainWindow window;
     QSplashScreen *splash = app.splashScreen();
     if (splash) {
         splash->finish(&window);
     }
 
+#if defined(Q_OS_ANDROID)
+    window.showMaximized();
+#else
     const QSize size(1366, 768);
     window.resize(size);
     window.show();
     window.moveToCenter();
+#endif
     window.load();
 
 #if 0 // X_ENABLE_SINGLE_APPLICATION
