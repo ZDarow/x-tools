@@ -6,8 +6,10 @@ import QtQuick.Dialogs
 Window {
     id: xPingMainWindow
     visible: true
-    width: 980
-    height: 520
+    width: Math.max(600, Screen.width * 0.85)
+    height: Math.max(400, Screen.height * 0.8)
+    minimumWidth: 600
+    minimumHeight: 400
     title: qsTr("Ping Ping")
     flags: Qt.Window | Qt.FramelessWindowHint
     color: "#00000000"
@@ -106,7 +108,9 @@ Window {
                 Layout.rightMargin: centralRectangle.border.width
             }
             MainWindowController {
-                Layout.minimumWidth: 210
+                Layout.preferredWidth: Math.min(280, parent.width * 0.35)
+                Layout.minimumWidth: 200
+                Layout.maximumWidth: 320
                 Layout.fillHeight: true
             }
             Rectangle {

@@ -34,6 +34,8 @@ Item {
         icon.color: xPingPrimaryColor
         display: AbstractButton.IconOnly
         anchors.verticalCenter: parent.verticalCenter
+        ToolTip.visible: hovered
+        ToolTip.text: qsTr("Settings")
         onClicked: {
             settingsMenu.popup(xPingCentralRectangle.border.width, xPingButton.height)
         }
@@ -103,49 +105,42 @@ Item {
         }
     }
 
-    GridLayout {
-        id: infoGridLayout
+    RowLayout {
+        id: infoRowLayout
         visible: xApp.active !== 0
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        columns: 8
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: xPingLabel.right
+        anchors.right: parent.right
+        anchors.leftMargin: 8
+        spacing: 4
+        clip: true
+
         Label {
-            id: totalLabel
-            text: qsTr("Total") + ": "
+            text: qsTr("Total") + ": " + xApp.total
             verticalAlignment: Qt.AlignVCenter
             Layout.fillHeight: true
+            font.pixelSize: Math.max(10, parent.height * 0.35)
+            elide: Text.ElideRight
         }
         Label {
-            text: xApp.total
+            text: qsTr("Active") + ": " + xApp.active
             verticalAlignment: Qt.AlignVCenter
             Layout.fillHeight: true
+            font.pixelSize: Math.max(10, parent.height * 0.35)
+            elide: Text.ElideRight
         }
         Label {
-            text: qsTr("Active") + ": "
+            text: qsTr("Finished") + ": " + xApp.finished
             verticalAlignment: Qt.AlignVCenter
             Layout.fillHeight: true
-        }
-        Label {
-            text: xApp.active
-            verticalAlignment: Qt.AlignVCenter
-            Layout.fillHeight: true
-        }
-        Label {
-            text: qsTr("Finished") + ": "
-            verticalAlignment: Qt.AlignVCenter
-            Layout.fillHeight: true
-        }
-        Label {
-            text: xApp.finished
-            verticalAlignment: Qt.AlignVCenter
-            Layout.fillHeight: true
+            font.pixelSize: Math.max(10, parent.height * 0.35)
+            elide: Text.ElideRight
         }
         ProgressBar {
             from: 0
             to: xApp.total
             value: xApp.finished
-            Layout.columnSpan: 8
             Layout.fillWidth: true
             Layout.bottomMargin: 4
         }

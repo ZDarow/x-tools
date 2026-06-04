@@ -30,19 +30,32 @@
     <widget class="QWidget" name="widgetController" native="true">
      <layout class="QGridLayout" name="gridLayout">
       <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item row="8" column="0" colspan="2">
-       <layout class="QGridLayout" name="gridLayout_2">
+        <number>4</number>
+       </property>
+       <property name="topMargin">
+        <number>4</number>
+       </property>
+       <property name="rightMargin">
+        <number>4</number>
+       </property>
+       <property name="bottomMargin">
+        <number>4</number>
+       </property>
+       <property name="horizontalSpacing">
+        <number>4</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>4</number>
+       </property>
+
+       <item row="8" column="0" colspan="2">
+        <layout class="QGridLayout" name="gridLayout_2">
+         <property name="horizontalSpacing">
+          <number>2</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>2</number>
+         </property>
         <item row="0" column="0">
          <widget class="QCheckBox" name="checkBoxOutputRx">
           <property name="text">
@@ -87,9 +100,12 @@
         </item>
        </layout>
       </item>
-      <item row="10" column="0" colspan="2">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
+       <item row="10" column="0" colspan="2">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="spacing">
+          <number>4</number>
+         </property>
+         <item>
          <widget class="QPushButton" name="pushButtonOutputSettings">
           <property name="text">
            <string>Settings</string>
@@ -137,9 +153,12 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0" colspan="2">
-       <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="1">
+       <item row="4" column="0" colspan="2">
+        <layout class="QGridLayout" name="gridLayout_4">
+         <property name="horizontalSpacing">
+          <number>4</number>
+         </property>
+         <item row="0" column="1">
          <widget class="QPushButton" name="pushButtonDeviceOpen">
           <property name="text">
            <string>Open</string>
@@ -174,9 +193,12 @@
         </property>
        </widget>
       </item>
-      <item row="9" column="0" colspan="2">
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
-        <item>
+       <item row="9" column="0" colspan="2">
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <property name="spacing">
+          <number>4</number>
+         </property>
+         <item>
          <widget class="QCheckBox" name="checkBoxWrap">
           <property name="text">
            <string>Wrap</string>
@@ -233,9 +255,12 @@
         </property>
        </widget>
       </item>
-      <item row="15" column="0" colspan="2">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
+       <item row="15" column="0" colspan="2">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>4</number>
+         </property>
+         <item>
          <widget class="QPushButton" name="pushButtonInputSettings">
           <property name="text">
            <string>Settings</string>

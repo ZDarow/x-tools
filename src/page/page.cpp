@@ -16,6 +16,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QRegularExpression>
+#include <QScrollArea>
 #include <QTimer>
 #include <QToolButton>
 #include <QVariantMap>
@@ -174,6 +175,7 @@ public:
 #endif
     LuaView *m_luaView{nullptr};
 
+    QScrollArea *m_controllerScroll{nullptr};
     QList<QToolButton *> m_tabToolButtons;
     QTimer *m_writeTimer{nullptr};
     QTimer *m_updateLabelInfoTimer{nullptr};
@@ -736,6 +738,8 @@ void PagePrivate::addTab(const QString &name, QWidget *widget)
 {
     QToolButton *button = new QToolButton();
     button->setText(name);
+    button->setToolTip(name);
+    button->setToolButtonStyle(Qt::ToolButtonTextOnly);
     ui->horizontalLayoutTab->addWidget(button);
     ui->stackedWidget->addWidget(widget);
 
@@ -843,7 +847,27 @@ Page::Page(ControllerDirection direction, QSettings *settings, QWidget *parent)
 
     d->ui->setupUi(this);
     d->ui->stackedWidget->hide();
+#if defined(Q_OS_ANDROID)
+    d->ui->splitter->setChildrenCollapsible(true);
+#else
     d->ui->splitter->setChildrenCollapsible(false);
+#endif
+
+    {
+        QScrollArea *sa = new QScrollArea(this);
+        d->m_controllerScroll = sa;
+        sa->setWidget(d->ui->widgetController);
+        sa->setWidgetResizable(true);
+        sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        sa->setFrameShape(QFrame::NoFrame);
+        sa->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+
+        QHBoxLayout *mainLayout = qobject_cast<QHBoxLayout *>(layout());
+        if (mainLayout) {
+            mainLayout->removeWidget(d->ui->widgetController);
+            mainLayout->insertWidget(0, sa);
+        }
+    }
 
     d->m_rxStatistician = new Statistician(d->ui->labelRxInfo, this);
     d->m_txStatistician = new Statistician(d->ui->labelTxInfo, this);
@@ -922,6 +946,8 @@ Page::Page(ControllerDirection direction, QSettings *settings, QWidget *parent)
     d->m_panels.append(item);
 #endif
 
+    d->ui->horizontalLayoutTab->setSpacing(2);
+
     for (const PagePrivate::PanelItem &panel :
          const_cast<const QList<PagePrivate::PanelItem> &>(d->m_panels)) {
         connect(panel.panel, &Panel::outputBytes, d, &PagePrivate::writeSpecifiedBytes);
@@ -965,9 +991,18 @@ Page::Page(ControllerDirection direction, QSettings *settings, QWidget *parent)
     d->onDeviceTypeChanged();
     d->onTerminalModeChanged();
     d->onInputFormatChanged();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    d->ui->widgetController->setMaximumWidth(256);
+
+    if (d->m_controllerScroll) {
+#if defined(Q_OS_ANDROID)
+        d->m_controllerScroll->setMinimumWidth(220);
+        d->m_controllerScroll->setMaximumWidth(280);
+#else
+        d->m_controllerScroll->setMinimumWidth(220);
+        d->m_controllerScroll->setMaximumWidth(300);
 #endif
+    }
+    d->ui->gridLayout->setColumnStretch(0, 0);
+    d->ui->gridLayout->setColumnStretch(1, 1);
 }
 
 Page::~Page()

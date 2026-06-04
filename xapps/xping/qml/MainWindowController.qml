@@ -9,9 +9,20 @@ Item {
         readonly property string startIp: "startIp"
         readonly property string endIp: "endIp"
     }
-    ColumnLayout {
+    Flickable {
         anchors.fill: parent
         anchors.margins: 12
+        contentHeight: columnLayout.implicitHeight
+        contentWidth: parent.width
+        clip: true
+        ScrollBar.vertical: ScrollBar {
+            policy: ScrollBar.AsNeeded
+        }
+
+        ColumnLayout {
+            id: columnLayout
+            width: parent.width
+            spacing: 8
         Label {
             text: qsTr("Start IP address")
         }
@@ -119,6 +130,7 @@ Item {
 
         Label {
             Layout.fillHeight: true
+        }
         }
     }
     ButtonGroup {
